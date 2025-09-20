@@ -1,0 +1,17 @@
+name: SkyLink
+version: 1.0.0-beta
+main: skylink.SkyLink
+api-version: 1.21
+author: VRG 2B
+description: Have real world weather in Minecraft!
+
+commands:
+  skylink:
+    description: Use SkyLink to manipulate Minecraft weather with real world data
+    usage: /skylink location <location>
+    permission: skylink.use
+
+permissions:
+  skylink.use:
+    description: Allows using the skylink command
+    default: true
