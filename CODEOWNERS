@@ -1,0 +1,8 @@
+# Global owner - project curator
+* @domasles
+
+# Folder-specific teams
+/papermc-mod/ @VRG-2B/papermc-mod
+/rain-data-parsing/ @VRG-2B/rain-data-parsing
+/sun-position-translation/ @VRG-2B/sun-position-translation
+/weather-api-integration/ @VRG-2B/weather-api-integration
