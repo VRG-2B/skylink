@@ -1,0 +1,14 @@
+# Config directories
+.vscode/
+
+# Build outputs
+build/
+bin/
+
+# Gradle specific
+.gradle/
+gradle/
+gradle*
+
+# Environment variables
+.env
