@@ -1,0 +1,8 @@
+config:
+  host: "localhost"
+  port: 8080
+
+location:
+  city: "UK/London"
+  latitude: 0
+  longitude: 0
