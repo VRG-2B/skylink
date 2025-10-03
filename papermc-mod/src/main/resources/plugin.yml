@@ -8,7 +8,7 @@ description: Have real world weather in Minecraft!
 commands:
   skylink:
     description: Use SkyLink to manipulate Minecraft weather with real world data
-    usage: /skylink location <location>
+    usage: /skylink <city|coordinates> <value>
     permission: skylink.use
 
 permissions:
