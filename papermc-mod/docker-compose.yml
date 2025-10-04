@@ -1,0 +1,36 @@
+# SkyLink Server Docker Compose Configuration
+# This configuration uses a pre-built image from GitHub Container Registry (GHCR)
+# To use local builds instead, use docker compose up --build
+
+services:
+  skylink-server:
+    build:
+        context: ./
+        dockerfile: Dockerfile
+
+    image: ghcr.io/domasles/skylink/server:latest
+    container_name: skylink-server
+    restart: unless-stopped
+
+    ports:
+      - "0.0.0.0:25565:25565"
+
+    # Uncomment the following lines to use a custom .env file
+    # env_file:
+    #   - .env
+
+    environment:
+      # We suggest you not tweak EULA and TYPE environment variables. They are baked in the image and modifying them may cause issues
+
+      VERSION: "1.21.1"
+      MEMORY: 2G
+      ONLINE_MODE: "FALSE"
+      SERVER_PORT: 25565    # This should match the port mapping above
+      ALLOW_CHEATS: "TRUE"
+
+    # Uncomment the following lines to mount the built plugin jar from the host machine
+    # volumes:
+    #   - ./build/libs:/data/plugins
+
+    stdin_open: true
+    tty: true

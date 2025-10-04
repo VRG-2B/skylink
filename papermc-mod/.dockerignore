@@ -1,0 +1,27 @@
+# Config directories
+.vscode/
+
+# Build outputs
+build/
+bin/
+
+# Gradle specific
+.gradle/
+gradle/
+gradle*
+
+# Environment variables
+.env
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+LICENSE
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
