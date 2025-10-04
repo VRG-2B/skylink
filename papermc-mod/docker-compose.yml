@@ -8,7 +8,7 @@ services:
         context: ./
         dockerfile: Dockerfile
 
-    image: ghcr.io/domasles/skylink/server:latest
+    image: ghcr.io/vrg-2b/skylink/server:latest
     container_name: skylink-server
     restart: unless-stopped
 
