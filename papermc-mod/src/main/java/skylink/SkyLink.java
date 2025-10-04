@@ -6,15 +6,19 @@ import skylink.domain.config.PluginConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SkyLink extends JavaPlugin {
+    private static SkyLink instance;
+
     private SkyLinkCommand skylinkCommand;
     private PluginConfig config;
 
     @Override
     public void onEnable() {
+        instance = this;
+
         getLogger().info("SkyLink starting up...");
         saveDefaultConfig();
 
-        config = new PluginConfig(this);
+        config = new PluginConfig();
         skylinkCommand = new SkyLinkCommand(config);
 
         getCommand("skylink").setExecutor(skylinkCommand);
@@ -23,18 +27,10 @@ public class SkyLink extends JavaPlugin {
         getLogger().info("SkyLink enabled successfully!");
     }
 
-    public String getConfigValue(String envKey, String ymlKey, String defaultValue) {
-        String envValue = System.getenv(envKey);
-        if (envValue != null && !envValue.isEmpty()) return envValue;
-
-        String ymlValue = getConfig().getString(ymlKey);
-        if (ymlValue != null && !ymlValue.isEmpty()) return ymlValue;
-
-        return defaultValue;
-    }
-
     @Override
     public void onDisable() {
         getLogger().info("SkyLink disabled.");
     }
+
+    public static SkyLink getInstance() { return instance; }
 }
