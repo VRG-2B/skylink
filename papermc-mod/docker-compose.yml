@@ -3,13 +3,13 @@
 # To use local builds instead, use docker compose up --build
 
 services:
-  skylink-server:
+  skylink-mc-server:
     build:
         context: ./
         dockerfile: Dockerfile
 
-    image: ghcr.io/domasles/skylink/server:latest
-    container_name: skylink-server
+    image: ghcr.io/vrg-2b/skylink/mc-server:latest
+    container_name: skylink-mc-server
     restart: unless-stopped
 
     ports:
