@@ -14,23 +14,13 @@ public class SkyLink extends JavaPlugin {
         getLogger().info("SkyLink starting up...");
         saveDefaultConfig();
 
-        config = new PluginConfig(this);
+        config = new PluginConfig();
         skylinkCommand = new SkyLinkCommand(config);
 
         getCommand("skylink").setExecutor(skylinkCommand);
         getCommand("skylink").setTabCompleter(skylinkCommand);
 
         getLogger().info("SkyLink enabled successfully!");
-    }
-
-    public String getConfigValue(String envKey, String ymlKey, String defaultValue) {
-        String envValue = System.getenv(envKey);
-        if (envValue != null && !envValue.isEmpty()) return envValue;
-
-        String ymlValue = getConfig().getString(ymlKey);
-        if (ymlValue != null && !ymlValue.isEmpty()) return ymlValue;
-
-        return defaultValue;
     }
 
     @Override

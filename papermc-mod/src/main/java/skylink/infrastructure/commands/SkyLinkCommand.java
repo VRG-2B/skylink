@@ -1,6 +1,5 @@
 package skylink.infrastructure.commands;
 
-import skylink.infrastructure.commands.location.CoordCommand;
 import skylink.infrastructure.commands.location.CityCommand;
 
 import skylink.domain.config.PluginConfig;
@@ -9,14 +8,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.command.Command;
+
 import org.bukkit.entity.Player;
 
 public class SkyLinkCommand implements CommandExecutor, TabCompleter {
-    private final CoordCommand coordCommand;
     private final CityCommand cityCommand;
 
     public SkyLinkCommand(PluginConfig config) {
-        this.coordCommand = new CoordCommand(config);
         this.cityCommand = new CityCommand(config);
     }
 
@@ -29,16 +27,14 @@ public class SkyLinkCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        if (!player.hasPermission("skylink.location")) {
+        if (!player.hasPermission("skylink.use")) {
             player.sendMessage("§cYou don't have permission to use this command.");
             return true;
         }
 
         if (args.length < 2) {
-            player.sendMessage("§cUsage: /skylink <city|coordinates> <value>");
-            player.sendMessage("§cExamples:");
-            player.sendMessage("§c  /skylink city UK/London");
-            player.sendMessage("§c  /skylink coordinates 51.5074 -0.1278");
+            player.sendMessage("§cUsage: /skylink city <Country/City>");
+            player.sendMessage("§cExample: /skylink city UK/London");
 
             return true;
         }
@@ -52,15 +48,8 @@ public class SkyLinkCommand implements CommandExecutor, TabCompleter {
             return cityCommand.onCommand(sender, command, label, cityArgs);
         }
 
-        else if (subcommand.equals("coordinates")) {
-            String[] coordArgs = new String[args.length - 1];
-            System.arraycopy(args, 1, coordArgs, 0, args.length - 1);
-            return coordCommand.onCommand(sender, command, label, coordArgs);
-            
-        }
-
         else {
-            player.sendMessage("§cInvalid subcommand! Use 'city' or 'coordinates'");
+            player.sendMessage("§cInvalid subcommand! Use 'city'");
             return true;
         }
     }
@@ -71,8 +60,6 @@ public class SkyLinkCommand implements CommandExecutor, TabCompleter {
 
         if (args.length == 1) {
             if ("city".startsWith(args[0].toLowerCase())) completions.add("city");
-            if ("coordinates".startsWith(args[0].toLowerCase())) completions.add("coordinates");
-            
         }
 
         else if (args.length >= 2) {
@@ -82,14 +69,6 @@ public class SkyLinkCommand implements CommandExecutor, TabCompleter {
                 String[] cityArgs = new String[args.length - 1];
                 System.arraycopy(args, 1, cityArgs, 0, args.length - 1);
                 return cityCommand.onTabComplete(sender, command, alias, cityArgs);
-                
-            }
-
-            else if (subcommand.equals("coordinates")) {
-                String[] coordArgs = new String[args.length - 1];
-                System.arraycopy(args, 1, coordArgs, 0, args.length - 1);
-
-                return coordCommand.onTabComplete(sender, command, alias, coordArgs);
             }
         }
 
