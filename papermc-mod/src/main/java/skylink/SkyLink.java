@@ -6,11 +6,15 @@ import skylink.domain.config.PluginConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SkyLink extends JavaPlugin {
+    private static SkyLink instance;
+
     private SkyLinkCommand skylinkCommand;
     private PluginConfig config;
 
     @Override
     public void onEnable() {
+        instance = this;
+
         getLogger().info("SkyLink starting up...");
         saveDefaultConfig();
 
@@ -27,4 +31,6 @@ public class SkyLink extends JavaPlugin {
     public void onDisable() {
         getLogger().info("SkyLink disabled.");
     }
+
+    public static SkyLink getInstance() { return instance; }
 }
