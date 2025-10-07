@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+
+# Build outputs
+build/
+
+# Virtual environments
+venv/
+
+# IDE
+.vscode/
+
+# Application specific
+*.db
+
+# Environment variables
+.env
+
+# Cache
+.cache
+
+# Secrets
+*.crt
+*.key
+*.pem
