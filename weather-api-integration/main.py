@@ -32,9 +32,6 @@ def get_temperature():
 
     return data['current']['temperature_2m']
 
-<<<<<<< HEAD
-print(get_lat_lon('Uk/London'))
-=======
 # Funkcija, kuri grąžina ar lyja mieste
 def get_rain_status():
     url = 'https://api.open-meteo.com/v1/forecast'
@@ -87,4 +84,3 @@ def get_thunder():
         return True
     else:
         return False
->>>>>>> origin/main
