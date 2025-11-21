@@ -33,13 +33,13 @@ def get_lat_lon(city):
 
 def get_thunder(city):
     """
-    Fetch current thunder/lightning probability data for a given city.
+    Fetch current thunder/lightning probability and rain data for a given city.
     
     Args:
         city (str): City name
         
     Returns:
-        dict: Thunder data including lightning probability
+        dict: Thunder and rain data
     """
     lat, lon = get_lat_lon(city)
     
@@ -47,7 +47,7 @@ def get_thunder(city):
     params = {
         'latitude': lat,
         'longitude': lon,
-        'current': 'lightning_probability',
+        'current': 'lightning_probability,rain',
         'timezone': 'auto',
     }
 
@@ -61,6 +61,7 @@ def get_thunder(city):
         'latitude': lat,
         'longitude': lon,
         'lightning_probability': current_data.get('lightning_probability', 0),
+        'rain': current_data.get('rain', 0),
         'timezone': data.get('timezone', 'UTC'),
         'time': current_data.get('time', 'N/A')
     }
