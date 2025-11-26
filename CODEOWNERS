@@ -3,6 +3,7 @@
 
 # Folder-specific teams
 /papermc-mod/ @VRG-2B/papermc-mod
-/rain-data-parsing/ @VRG-2B/rain-data-parsing
-/sun-position-translation/ @VRG-2B/sun-position-translation
-/weather-api-integration/ @VRG-2B/weather-api-integration
+/api/ @VRG-2B/api-mods
+/rain_data_parsing/ @VRG-2B/rain-data-parsing
+/sun_position_translation/ @VRG-2B/sun-position-translation
+/weather_api_integration/ @VRG-2B/weather-api-integration
