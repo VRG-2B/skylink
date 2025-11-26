@@ -9,10 +9,8 @@ build/
 dist/
 *.egg-info/
 
-# Virtual environments
-venv/
-.venv/
-env/
+# Virtual environments and environment variables
+*env*
 
 # IDE
 .vscode/
@@ -22,13 +20,11 @@ env/
 *.db
 *.sqlite3
 
-# Environment variables
-.env
-.env.local
-
 # Cache
-.cache
-.pytest_cache/
+*cache*
 
 # Logs
 *.log
+
+# Gradle specific
+*gradle*
