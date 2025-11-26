@@ -9,78 +9,59 @@ import org.bukkit.command.Command;
 
 import org.bukkit.entity.Player;
 
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-import java.net.URI;
-
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CityCommand implements CommandExecutor, TabCompleter {
     private final PluginConfig config;
-    private final HttpClient httpClient;
 
-    private static final Pattern CITY_PATTERN = Pattern.compile("^[A-Za-z]+/[A-Za-z\\s]+$");
+    // Common city suggestions
+    private static final List<String> CITY_SUGGESTIONS = List.of(
+        "Vilnius", "London", "New York", "Paris", "Tokyo", "Sydney",
+        "Berlin", "Moscow", "Dubai", "Singapore", "Toronto",
+        "Los Angeles", "Chicago", "Miami", "San Francisco"
+    );
 
     public CityCommand(PluginConfig config) {
         this.config = config;
-        this.httpClient = HttpClient.newHttpClient();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
 
-        if (args.length != 1) {            
-            player.sendMessage("§cUsage: /skylink city <Country/City>");
-            player.sendMessage("§cExample: /skylink city UK/London");
+        if (args.length < 1) {            
+            player.sendMessage("§6Current city: §f" + config.getCity());
+            player.sendMessage("§7Usage: /skylink city <city name>");
+            player.sendMessage("§7Example: /skylink city London");
+
             return true;
         }
 
-        String cityInput = args[0];
+        // Join all args to support city names with spaces
+        String cityInput = String.join(" ", args);
 
-        if (!CITY_PATTERN.matcher(cityInput).matches()) {
-            player.sendMessage("§cInvalid city format! Use: Country/City (e.g., UK/London)");
+        if (cityInput.isBlank()) {
+            player.sendMessage("§cPlease provide a valid city name!");
             return true;
         }
 
-        try {
-            String url = "http://" + config.getHost() + ":" + config.getPort() + "/location/city";
-            String jsonBody = "{\"city\": \"" + cityInput + "\"}";
-
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-                .build();
-
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() == 200) {
-                player.sendMessage("§aLocation set to: " + cityInput);
-            }
-
-            else {
-                player.sendMessage("§cFailed to set location. Server responded with status: " + response.statusCode());
-            }
-        }
-
-        catch (Exception e) {
-            player.sendMessage("§cError connecting to location service: " + e.getMessage());
-        }
+        config.setCity(cityInput);
+        player.sendMessage("§aCity set to: §f" + cityInput);
+        player.sendMessage("§7Weather will sync on next update cycle.");
 
         return true;
     }
 
     @Override
-    public java.util.List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        java.util.List<String> completions = new java.util.ArrayList<>();
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
 
-        if (args.length == 1) {
-            completions.add("UK/London");
-            completions.add("US/New_York");
-            completions.add("France/Paris");
+        if (args.length >= 1) {
+            String partial = String.join(" ", args).toLowerCase();
+            for (String city : CITY_SUGGESTIONS) {
+                if (city.toLowerCase().startsWith(partial)) completions.add(city);
+            }
         }
 
         return completions;

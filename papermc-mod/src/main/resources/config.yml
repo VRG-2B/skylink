@@ -1,6 +1,10 @@
-config:
+api:
   host: "localhost"
   port: 8080
 
+sync:
+  interval_seconds: 120
+  enabled: true
+
 location:
-  city: "UK/London"
+  city: "Vilnius"

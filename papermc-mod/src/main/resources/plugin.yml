@@ -8,10 +8,13 @@ description: Have real world weather in Minecraft!
 commands:
   skylink:
     description: Use SkyLink to manipulate Minecraft weather with real world data
-    usage: /skylink city <Country/City>
+    usage: /skylink <city|status|sync|start|stop>
     permission: skylink.use
 
 permissions:
   skylink.use:
-    description: Allows using the skylink command
+    description: Allows using basic skylink commands (city, status)
     default: true
+  skylink.admin:
+    description: Allows using admin skylink commands (sync, start, stop)
+    default: op

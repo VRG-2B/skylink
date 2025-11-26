@@ -3,15 +3,20 @@ package skylink.domain.config;
 import skylink.SkyLink;
 
 public class PluginConfig {
-    private final String host;
-    private final int port;
+    private final String apiHost;
 
-    private final String defaultCity;
+    private final int apiPort;
+    private final int syncIntervalSeconds;
+    private final boolean syncEnabled;
+
+    private String city;
 
     public PluginConfig() {
-        this.host = getConfigValue("SKYLINK_HOST", "config.host", "localhost");
-        this.port = Integer.parseInt(getConfigValue("SKYLINK_PORT", "config.port", "8080"));
-        this.defaultCity = getConfigValue("SKYLINK_CITY", "location.city", "UK/London");
+        this.apiHost = getConfigValue("SKYLINK_API_HOST", "api.host", "localhost");
+        this.apiPort = Integer.parseInt(getConfigValue("SKYLINK_API_PORT", "api.port", "8080"));
+        this.syncIntervalSeconds = Integer.parseInt(getConfigValue("SKYLINK_SYNC_INTERVAL", "sync.interval_seconds", "120"));
+        this.syncEnabled = Boolean.parseBoolean(getConfigValue("SKYLINK_SYNC_ENABLED", "sync.enabled", "true"));
+        this.city = getConfigValue("SKYLINK_CITY", "location.city", "London");
     }
 
     public String getConfigValue(String envKey, String ymlKey, String defaultValue) {
@@ -24,8 +29,22 @@ public class PluginConfig {
         return defaultValue;
     }
 
-    public String getHost() { return host; }
-    public int getPort() { return port; }
+    public String getApiHost() { return apiHost; }
 
-    public String getDefaultCity() { return defaultCity; }
+    public int getApiPort() { return apiPort; }
+    public int getSyncIntervalSeconds() { return syncIntervalSeconds; }
+
+    public boolean isSyncEnabled() { return syncEnabled; }
+    
+    public String getCity() { return city; }
+    
+    public void setCity(String city) {
+        this.city = city;
+        SkyLink.getInstance().getConfig().set("location.city", city);
+        SkyLink.getInstance().saveConfig();
+    }
+    
+    public String getApiBaseUrl() {
+        return "http://" + apiHost + ":" + apiPort;
+    }
 }
