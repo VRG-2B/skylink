@@ -25,7 +25,7 @@ services:
       VERSION: "1.21.1"
       MEMORY: 2G
       ONLINE_MODE: "FALSE"
-      SERVER_PORT: 25565    # This should match the port mapping above
+      SERVER_PORT: 25565  # This should match the port mapping above
       ALLOW_CHEATS: "TRUE"
 
     # Uncomment the following lines to mount the built plugin jar from the host machine

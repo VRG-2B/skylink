@@ -1,0 +1,27 @@
+# SkyLink API Docker Compose Configuration
+# This configuration uses a pre-built image from GitHub Container Registry (GHCR)
+# To use local builds instead, use docker compose up --build
+
+services:
+  skylink-api:
+    build:
+        context: ../
+        dockerfile: api/Dockerfile
+
+    image: ghcr.io/vrg-2b/skylink/api:latest
+    container_name: skylink-api
+    restart: unless-stopped
+
+    ports:
+      - "0.0.0.0:8080:8080"
+
+    # Uncomment the following lines to use a custom .env file
+    # env_file:
+    #   - .env
+
+    environment:
+      HOST: "0.0.0.0"
+      PORT: 8080
+
+    stdin_open: true
+    tty: true

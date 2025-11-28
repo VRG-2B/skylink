@@ -20,6 +20,3 @@ ENV EULA=TRUE
 
 # Copy the built plugin
 COPY --from=builder /app/build/libs/skylink-*.jar /plugins/
-
-# Expose the default Minecraft port
-EXPOSE 25565
