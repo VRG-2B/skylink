@@ -29,50 +29,60 @@ public class SkyLinkApiClient {
     public record PrecipitationResponse(boolean rain, boolean thunder) {}
 
     public Optional<TimeResponse> getTime(String city) {
+        String url = config.getApiBaseUrl() + "/time?city=" + encodeCity(city);
         try {
-            String url = config.getApiBaseUrl() + "/time?city=" + encodeCity(city);
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).timeout(Duration.ofSeconds(10)).GET().build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             
             if (response.statusCode() == 200) {
                 JsonObject json = gson.fromJson(response.body(), JsonObject.class);
+
+                if (json == null || !json.has("ticks")) {
+                    logger.warning("Invalid time response from API: " + response.body());
+                    return Optional.empty();
+                }
+
                 int ticks = json.get("ticks").getAsInt();
                 return Optional.of(new TimeResponse(ticks));
             }
 
             else {
-                logger.warning("Failed to get time from API: HTTP " + response.statusCode());
+                logger.warning("Failed to get time from API: HTTP " + response.statusCode() + " - " + response.body());
                 return Optional.empty();
             }
         }
 
         catch (Exception e) {
-            logger.warning("Error fetching time from API: " + e.getMessage());
+            logger.warning("Error fetching time from API (" + url + "): " + e.getMessage());
             return Optional.empty();
         }
     }
 
     public Optional<PrecipitationResponse> getPrecipitation(String city) {
+        String url = config.getApiBaseUrl() + "/precipitation?city=" + encodeCity(city);
         try {
-            String url = config.getApiBaseUrl() + "/precipitation?city=" + encodeCity(city);
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).timeout(Duration.ofSeconds(10)).GET().build();
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             
             if (response.statusCode() == 200) {
                 JsonObject json = gson.fromJson(response.body(), JsonObject.class);
+                if (json == null || !json.has("rain") || !json.has("thunder")) {
+                    logger.warning("Invalid precipitation response from API: " + response.body());
+                    return Optional.empty();
+                }
                 boolean rain = json.get("rain").getAsBoolean();
                 boolean thunder = json.get("thunder").getAsBoolean();
                 return Optional.of(new PrecipitationResponse(rain, thunder));
             }
 
             else {
-                logger.warning("Failed to get precipitation from API: HTTP " + response.statusCode());
+                logger.warning("Failed to get precipitation from API: HTTP " + response.statusCode() + " - " + response.body());
                 return Optional.empty();
             }
         }
 
         catch (Exception e) {
-            logger.warning("Error fetching precipitation from API: " + e.getMessage());
+            logger.warning("Error fetching precipitation from API (" + url + "): " + e.getMessage());
             return Optional.empty();
         }
     }

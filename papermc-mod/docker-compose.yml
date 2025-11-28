@@ -28,9 +28,16 @@ services:
       SERVER_PORT: 25565  # This should match the port mapping above
       ALLOW_CHEATS: "TRUE"
 
+    networks:
+      - skylink-network
+
     # Uncomment the following lines to mount the built plugin jar from the host machine
     # volumes:
     #   - ./build/libs:/data/plugins
 
     stdin_open: true
     tty: true
+
+networks:
+  skylink-network:
+    external: true

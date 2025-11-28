@@ -23,5 +23,12 @@ services:
       HOST: "0.0.0.0"
       PORT: 8080
 
+    networks:
+      - skylink-network
+
     stdin_open: true
     tty: true
+
+networks:
+  skylink-network:
+    external: true

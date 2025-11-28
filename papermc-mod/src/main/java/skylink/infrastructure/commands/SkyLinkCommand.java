@@ -61,7 +61,15 @@ public class SkyLinkCommand implements CommandExecutor, TabCompleter {
 
                 String[] cityArgs = new String[args.length - 1];
                 System.arraycopy(args, 1, cityArgs, 0, args.length - 1);
-                return cityCommand.onCommand(sender, command, label, cityArgs);
+                boolean result = cityCommand.onCommand(sender, command, label, cityArgs);
+                
+                // Trigger immediate sync after city change
+                if (result) {
+                    player.sendMessage("§6Syncing weather for new city...");
+                    syncService.sync();
+                }
+                
+                return result;
             }
 
             case "sync" -> {
