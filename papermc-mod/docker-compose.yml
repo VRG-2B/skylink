@@ -31,9 +31,9 @@ services:
     networks:
       - skylink-network
 
-    # Uncomment the following lines to mount the built plugin jar from the host machine
-    # volumes:
-    #   - ./build/libs:/data/plugins
+    # Comment the following lines to remove Docker mounts
+    volumes:
+      - ./src/main/resources:/data/plugins/SkyLink
 
     stdin_open: true
     tty: true

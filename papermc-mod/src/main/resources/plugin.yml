@@ -1,5 +1,5 @@
 name: SkyLink
-version: 1.0.0-beta
+version: 1.1.0-beta
 main: skylink.SkyLink
 api-version: 1.21
 author: VRG 2B
@@ -14,7 +14,8 @@ commands:
 permissions:
   skylink.use:
     description: Allows using basic skylink commands (city, status)
-    default: true
+    default: op
+
   skylink.admin:
     description: Allows using admin skylink commands (sync, start, stop)
     default: op

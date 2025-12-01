@@ -40,8 +40,6 @@ public class PluginConfig {
     
     public void setCity(String city) {
         this.city = city;
-        SkyLink.getInstance().getConfig().set("location.city", city);
-        SkyLink.getInstance().saveConfig();
     }
     
     public String getApiBaseUrl() {
