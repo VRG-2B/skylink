@@ -18,7 +18,8 @@ public class CityCommand implements CommandExecutor, TabCompleter {
     // Common city suggestions
     private static final List<String> CITY_SUGGESTIONS = List.of(
         "Vilnius", "London", "New York", "Paris", "Tokyo", "Sydney",
-        "Berlin", "Moscow", "Dubai", "Singapore", "Toronto",
+        "Berlin", "Rome", "Dubai", "Singapore", "Toronto", "Warsaw", "Madrid",
+        "Amsterdam", "Seoul", "Bangkok", "Istanbul", "Riga", "Tallinn",
         "Los Angeles", "Chicago", "Miami", "San Francisco"
     );
 
@@ -48,7 +49,6 @@ public class CityCommand implements CommandExecutor, TabCompleter {
 
         config.setCity(cityInput);
         player.sendMessage("§aCity set to: §f" + cityInput);
-        player.sendMessage("§7Weather will sync on next update cycle.");
 
         return true;
     }
@@ -59,6 +59,7 @@ public class CityCommand implements CommandExecutor, TabCompleter {
 
         if (args.length >= 1) {
             String partial = String.join(" ", args).toLowerCase();
+
             for (String city : CITY_SUGGESTIONS) {
                 if (city.toLowerCase().startsWith(partial)) completions.add(city);
             }
