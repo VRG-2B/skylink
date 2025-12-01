@@ -51,8 +51,13 @@ public class SkyLinkCommand implements CommandExecutor, TabCompleter {
         String subcommand = args[0].toLowerCase();
         
         switch (subcommand) {
+            case "status" -> {
+                sendStatus(player);
+                return true;
+            }
+
             case "city" -> {
-                if (args.length < 2) {
+                if (args.length < 2 && !player.hasPermission("skylink.admin")) {
                     player.sendMessage("§6Current city: §f" + config.getCity());
                     player.sendMessage("§7Usage: /skylink city <city name>");
 
@@ -62,7 +67,7 @@ public class SkyLinkCommand implements CommandExecutor, TabCompleter {
                 String[] cityArgs = new String[args.length - 1];
                 System.arraycopy(args, 1, cityArgs, 0, args.length - 1);
                 boolean result = cityCommand.onCommand(sender, command, label, cityArgs);
-                
+
                 // Trigger immediate sync after city change
                 if (result) {
                     player.sendMessage("§6Syncing weather for new city...");
@@ -82,11 +87,6 @@ public class SkyLinkCommand implements CommandExecutor, TabCompleter {
                 syncService.sync();
                 player.sendMessage("§aSync complete!");
 
-                return true;
-            }
-
-            case "status" -> {
-                sendStatus(player);
                 return true;
             }
 
@@ -153,7 +153,7 @@ public class SkyLinkCommand implements CommandExecutor, TabCompleter {
         player.sendMessage("§eAPI Health: " + (apiClient.isHealthy() ? "§aOnline" : "§cOffline"));
         player.sendMessage("§eSyncing: " + (syncService.isRunning() ? "§aEnabled" : "§cDisabled"));
         player.sendMessage("§eSync Interval: §f" + config.getSyncIntervalSeconds() + "s");
-        
+
         if (syncService.getLastSyncTime() > 0) {
             long secondsAgo = (System.currentTimeMillis() - syncService.getLastSyncTime()) / 1000;
 
