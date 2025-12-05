@@ -43,6 +43,6 @@ public class PluginConfig {
     }
     
     public String getApiBaseUrl() {
-        return "http://" + apiHost + ":" + apiPort;
+        return apiHost + ":" + apiPort;
     }
 }

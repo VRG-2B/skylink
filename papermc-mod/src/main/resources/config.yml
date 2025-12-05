@@ -1,5 +1,5 @@
 api:
-  host: "skylink-api"
+  host: "http://skylink-api"
   port: 8080
 
 sync:
